@@ -13,6 +13,10 @@ extension URL {
         url.appendPathComponent(path)
         return url
     }
+    
+    open class var shared: URLSession {
+        return URLSession(configuration: .default)
+    }
 }
 
 #endif
