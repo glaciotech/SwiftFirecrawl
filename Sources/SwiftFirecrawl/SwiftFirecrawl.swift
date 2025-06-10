@@ -3,6 +3,20 @@ import Foundation
 import FoundationNetworking
 #endif
 
+#if os(Linux)
+// Linux compatibility
+
+extension URL {
+    
+    public func appending<S>(path: S, directoryHint: URL.DirectoryHint = .inferFromPath) -> URL where S : StringProtocol {
+        var url = self
+        url.appendPathComponent(path)
+        return url
+    }
+}
+
+#endif
+
 //{
 //  "url": "<string>",
 //  "formats": [
