@@ -6,24 +6,30 @@ import FoundationNetworking
 #endif
 
 #if os(Linux)
-// Linux compatibility for URL.appending which is missing on Linux
-extension URL {
-    public func appending<S>(path: S, directoryHint: URL.DirectoryHint = .inferFromPath) -> URL where S : StringProtocol {
-        var url = self
-        url.appendPathComponent(String(path))
-        return url
+// For now just implement stubs on Linux
+open class SwiftFirecrawl {
+    
+    static public let defaultBaseUrl = "https://api.firecrawl.dev"
+    
+    let baseUrl: String
+    let apiKey: String
+    
+    public init(baseUrl: String = defaultBaseUrl, apiKey: String) {
+        self.baseUrl = baseUrl
+        self.apiKey = apiKey
     }
     
-    public func appending<S>(path: S) -> URL where S : StringProtocol {
-        var url = self
-        url.appendPathComponent(Self.scrapeUrl)
-        return url
+    
+    public func scrape(url: URL) async throws -> String {
+        return ""
+    }
+
+    public func scrape(rawUrlString: String) async throws -> String {
+        return ""
     }
 }
-extension URLSession {
-    public static let shared = URLSession(configuration: .default)
-}
-#endif
+#else
+
 
 //{
 //  "url": "<string>",
@@ -188,3 +194,4 @@ open class SwiftFirecrawl {
         return response.data?.markdown ?? ""
     }
 }
+#endif
