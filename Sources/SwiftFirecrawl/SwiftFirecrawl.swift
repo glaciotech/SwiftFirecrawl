@@ -1,24 +1,28 @@
 import Foundation
+
+// On Linux, we need to import FoundationNetworking for URLSession and URLRequest
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
 
 #if os(Linux)
-// Linux compatibility
-
+// Linux compatibility for URL.appending which is missing on Linux
 extension URL {
-    
     public func appending<S>(path: S, directoryHint: URL.DirectoryHint = .inferFromPath) -> URL where S : StringProtocol {
         var url = self
-        url.appendPathComponent(path)
+        url.appendPathComponent(String(path))
         return url
     }
     
-    open class var shared: URLSession {
-        return URLSession(configuration: .default)
+    public func appending<S>(path: S) -> URL where S : StringProtocol {
+        var url = self
+        url.appendPathComponent(Self.scrapeUrl)
+        return url
     }
 }
-
+extension URLSession {
+    public static let shared = URLSession(configuration: .default)
+}
 #endif
 
 //{
